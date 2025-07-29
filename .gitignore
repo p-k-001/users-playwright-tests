@@ -1,0 +1,37 @@
+# Playwright
+test-results/
+playwright-report/
+*.zip  # In case you export the report
+/blob-report/
+/playwright/.cache/
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript build outputs
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# VS Code settings
+.vscode/
+
+# Environment files
+.env
+.env.*
+
+# Coverage reports (if using coverage)
+coverage/
+*.lcov
+
+# OS and IDE specific
+.DS_Store
+Thumbs.db
+
+# Optional: Ignore Playwright downloads if you don’t want to keep them in Git
+playwright/.cache/
