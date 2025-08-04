@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
-    "test:ci:local": "npx playwright test"
+    "test:ci:local": "npx playwright test",
+    "test:ci:staging": "npx playwright test"
   },
   "keywords": [],
   "author": "",
