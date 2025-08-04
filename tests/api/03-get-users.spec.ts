@@ -13,7 +13,10 @@ interface UserData {
 }
 
 let myContext: APIRequestContext;
-const BASE_URL = "http://localhost:3000";
+
+const REGISTER_ENDPOINT = `/register`;
+const LOGIN_ENDPOINT = `/login`;
+const USERS_ENDPOINT = `/users`;
 
 let serviceToken: string;
 // used for cleaning db
@@ -37,9 +40,9 @@ const validUserData = {
 test.describe("CRUD - GET users", async () => {
   // create serviceUSer
   test.beforeAll(async ({ request }) => {
-    await request.post(BASE_URL + "/register", { data: serviceUser });
+    await request.post(REGISTER_ENDPOINT, { data: serviceUser });
     const { token } = await (
-      await request.post(BASE_URL + "/login", { data: serviceUser })
+      await request.post("/login", { data: serviceUser })
     ).json();
     serviceToken = token;
   });
@@ -47,33 +50,33 @@ test.describe("CRUD - GET users", async () => {
   // clean db
   test.beforeEach(async ({ playwright }) => {
     myContext = await playwright.request.newContext({
-      baseURL: BASE_URL,
       extraHTTPHeaders: {
         Authentization: `Bearer ${serviceToken}`,
       },
     });
-    await myContext.delete(BASE_URL + "/users");
+    await myContext.delete(USERS_ENDPOINT);
     myContext.dispose();
   });
 
-  test.only("3.1. Vrátí seznam uživatelů (když existují) (POS)", async ({
+  test("3.1. Vrátí seznam uživatelů (když existují) (POS)", async ({
     playwright,
     request,
   }) => {
-    const resRegister = await request.post("/register", { data: user });
-    const resLogin = await request.post("/login", { data: user });
+    const resRegister = await request.post(REGISTER_ENDPOINT, { data: user });
+    const resLogin = await request.post(LOGIN_ENDPOINT, { data: user });
 
     const { token } = await resLogin.json();
     myContext = await playwright.request.newContext({
-      baseURL: "http://localhost:3000",
       extraHTTPHeaders: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    const resPostUser = await myContext.post("/users", { data: validUserData });
+    const resPostUser = await myContext.post(USERS_ENDPOINT, {
+      data: validUserData,
+    });
 
-    const resGetUsers = await myContext.get("/users");
+    const resGetUsers = await myContext.get(USERS_ENDPOINT);
     const result = await resGetUsers.json();
     console.log(result);
     expect(result).toContainEqual(

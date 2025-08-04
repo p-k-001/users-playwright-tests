@@ -1,8 +1,7 @@
 import { test, expect } from "@playwright/test";
 
-const BASE_URL = "http://localhost:3000";
-const REGISTER_ENDPOINT = `${BASE_URL}/register`;
-const LOGIN_ENDPOINT = `${BASE_URL}/login`;
+const REGISTER_ENDPOINT = `/register`;
+const LOGIN_ENDPOINT = `/login`;
 
 test.describe("Authentication API", () => {
   // 2.1.1 Registration with valid email/password
