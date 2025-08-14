@@ -34,7 +34,6 @@ test.describe("Authentication API", () => {
     };
 
     // register a user successfully
-    console.log(validUser);
     const responseOk = await request.post(REGISTER_ENDPOINT, {
       data: validUser,
     });

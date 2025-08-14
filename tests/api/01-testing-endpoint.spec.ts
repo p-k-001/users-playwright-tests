@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Public endpoint for testing purposes", async () => {
+test.describe("Public endpoint for testing purposes", () => {
   test("1.1.1. Should return welcome text", async ({ request }) => {
     const response = await request.get("/hello");
 

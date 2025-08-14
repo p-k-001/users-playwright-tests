@@ -35,3 +35,7 @@ Thumbs.db
 
 # Optional: Ignore Playwright downloads if you don’t want to keep them in Git
 playwright/.cache/
+
+
+# tmp
+tmp/

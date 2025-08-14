@@ -34,11 +34,40 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // {
+    //   name: "chromium",
+    //   use: { ...devices["Desktop Chrome"] },
+    // },
     {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      name: "ui",
+      testDir: "./tests/ui",
+      use: {
+        baseURL: process.env.BASE_URL_UI || "http://localhost:5173",
+      },
     },
-
+    {
+      name: "api",
+      testDir: "./tests/api",
+      use: {
+        baseURL: process.env.BASE_URL || "http://localhost:3000",
+      },
+    },
+    {
+      name: "ui-prod",
+      testDir: "./tests/ui",
+      use: {
+        baseURL:
+          process.env.BASE_URL_UI || "https://users.projects.icanbreakit.eu",
+      },
+    },
+    {
+      name: "api-prod",
+      testDir: "./tests/api",
+      use: {
+        baseURL:
+          process.env.BASE_URL || "https://users-api.projects.icanbreakit.eu",
+      },
+    },
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
