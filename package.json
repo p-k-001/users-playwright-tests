@@ -6,10 +6,11 @@
   "scripts": {
     "test": "npx playwright test",
     "test:ui:local": "cross-env ENV_FILE=.env.local npx playwright test --project=ui",
-    "test:api:local": "cross-env ENV_FILE=.env.local npx playwright test --project=ui-prod",
-    "test:staging": "cross-env ENV_FILE=.env.staging npx playwright test",
-    "test:ui-prod": "cross-env ENV_FILE=.env.production npx playwright test --project=api",
-    "test:api-prod": "cross-env ENV_FILE=.env.production npx playwright test --project=api-prod"
+    "test:api:local": "cross-env ENV_FILE=.env.local npx playwright test --project=api",
+    "test:ui:staging": "cross-env ENV_FILE=.env.staging npx playwright test --project=ui",
+    "test:api:staging": "cross-env ENV_FILE=.env.staging npx playwright test --project=api",
+    "test:ui:prod": "cross-env ENV_FILE=.env.production npx playwright test --project=ui",
+    "test:api:prod": "cross-env ENV_FILE=.env.production npx playwright test --project=api"
   },
   "keywords": [],
   "author": "",

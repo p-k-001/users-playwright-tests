@@ -4,10 +4,10 @@ import { defineConfig, devices } from "@playwright/test";
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-import dotenv from 'dotenv';
-import path from 'path';
+import dotenv from "dotenv";
+import path from "path";
 
-const envFile = process.env.ENV_FILE || '.env';
+const envFile = process.env.ENV_FILE || ".env";
 dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 /**
@@ -52,23 +52,6 @@ export default defineConfig({
       testDir: "./tests/api",
       use: {
         baseURL: process.env.BASE_URL_API || "http://localhost:3000",
-      },
-    },
-    {
-      name: "ui-prod",
-      testDir: "./tests/ui",
-      use: {
-        baseURL:
-          process.env.BASE_URL_UI || "https://users.projects.icanbreakit.eu",
-      },
-    },
-    {
-      name: "api-prod",
-      testDir: "./tests/api",
-      use: {
-        baseURL:
-          process.env.BASE_URL_API ||
-          "https://users-api.projects.icanbreakit.eu",
       },
     },
     // {
