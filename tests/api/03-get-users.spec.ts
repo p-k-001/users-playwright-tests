@@ -3,6 +3,7 @@ import { AuthApi } from "../../api-objects/AuthApi";
 import { User, UserDataRequest, UserDataResponse } from "../../types";
 
 import { test, expect, APIRequestContext } from "@playwright/test";
+import { setDefaultAutoSelectFamilyAttemptTimeout } from "node:net";
 
 let serviceContext: APIRequestContext;
 
@@ -99,6 +100,7 @@ test.describe("CRUD - GET users", () => {
     const authApi = new AuthApi(request);
 
     const token = await authApi.registerAndGetLoginToken(testUser);
+
     const testContext = await playwright.request.newContext({
       extraHTTPHeaders: {
         Authorization: `Bearer ${token}`,
@@ -113,13 +115,55 @@ test.describe("CRUD - GET users", () => {
 
     const resGet = await usersApi.getUser(userId);
     const resGetJson = await resGet.json();
+
     expect(resGetJson.id).toBe(userId);
     expect(resGetJson.name).toBe(validUserData.name);
     // TODO: add other assertions
+
+    testContext.dispose();
   });
 });
 
 // 2.2.4. Nevrátí uživatele podle platného ID pro cizího ownera – `404 User not found` (NEG)
+test("2.2.4. Nevrátí uživatele podle platného ID pro cizího ownera – `404 User not found` (NEG)", async ({
+  request,
+  playwright,
+}) => {
+  const authApi = new AuthApi(request);
+  const token = await authApi.registerAndGetLoginToken(testUser);
+
+  const testContext = await playwright.request.newContext({
+    extraHTTPHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const usersApi = new UsersApi(testContext);
+  const resPost = await usersApi.postUser(validUserData);
+  const resJson = await resPost.json();
+  const userId = resJson.id;
+
+  const testUser_02: User = {
+    email: `user_${Date.now()}@icanbreatit.eu}`,
+    password: `myPassword`,
+  };
+  const token_02 = await authApi.registerAndGetLoginToken(testUser_02);
+  const testContext_02 = await playwright.request.newContext({
+    extraHTTPHeaders: {
+      Authorization: `Bearer ${token_02}`,
+    },
+  });
+  const usersApi_02 = new UsersApi(testContext_02);
+
+  const resGet = await usersApi_02.getUser(userId);
+  const resGetJson = await resGet.json();
+
+  expect(resGet.status()).toBe(404);
+  expect(resGetJson.message).toBe("User not found");
+
+  testContext.dispose();
+  testContext_02.dispose();
+});
 // 2.2.5. Neexistující ID – `404 User not found` (NEG)
 // 2.2.6. Neplatné ID (např. `abc`) – `400 Invalid ID` (NEG)
 // 2.2.7. Bez JWT – `401 No token provided` (NEG)

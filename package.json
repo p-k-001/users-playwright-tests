@@ -5,14 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "npx playwright test",
-    "test:ci:local": "npx playwright test",
-    "test:ci:staging": "npx playwright test"
+    "test:ui:local": "cross-env ENV_FILE=.env.local npx playwright test --project=ui",
+    "test:api:local": "cross-env ENV_FILE=.env.local npx playwright test --project=ui-prod",
+    "test:staging": "cross-env ENV_FILE=.env.staging npx playwright test",
+    "test:ui-prod": "cross-env ENV_FILE=.env.production npx playwright test --project=api",
+    "test:api-prod": "cross-env ENV_FILE=.env.production npx playwright test --project=api-prod"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.54.1",
-    "@types/node": "^24.0.14"
+    "@types/node": "^24.0.14",
+    "cross-env": "^10.0.0",
+    "dotenv": "^17.2.1"
   }
 }
